@@ -31,6 +31,12 @@ export const signin = async (req, res, next) => {
         .cookie('access_token',token,{ httpOnly: true, expires: expiryDate})
         .status(200)
         .json(validUser);
+
+        // {
+        //     success: true,
+        //     user: rest,
+        //     access_token: token
+        // }
     } catch(err){
         next(err);
     }
