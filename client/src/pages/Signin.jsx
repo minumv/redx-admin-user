@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { OAuth } from '../components/OAuth';
 
 export const Signin = () => {
     const [formData, setFormData] = useState({ email: '',
@@ -108,7 +109,7 @@ export const Signin = () => {
                 <div className="flex-grow border-t border-gray-300"></div>
               </div>
     
-              {/* <OAuth /> */}
+              <OAuth />
                 <p className="text-red-700 mt-5">{error ? error.message || 'Something went wrong!' : ''}</p>
             </form>
           </div>
