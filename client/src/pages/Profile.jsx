@@ -1,22 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
+// import { errorHandler } from '../../../api/utils/error';
+import { updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/userSlice';
+// import { useNavigate } from 'react-router-dom';
 
 export const Profile = () => {
-  const {currentUser} = useSelector((state)=> state.user);
+  const {currentUser,loading, error} = useSelector((state)=> state.user);
   const fileRef = useRef(null);
   const [image, setImage] = useState(undefined);
   const [imagePercent, setImagePercent] = useState(0);
   const [formData, setFormData] = useState({})
   const [imageError, setImageError] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const dispatch = useDispatch();
+  // const navigate = useNavigate();
   
-  console.log(imagePercent)  
+  // console.log(imagePercent)  
 
   useEffect(()=>{
     if(image){
       handleFileUpload(image);
     }
+    dispatch(updateUserFailure(false));
   },[image]);
 
   const handleFileUpload = async(image) => {
@@ -44,13 +51,60 @@ export const Profile = () => {
             setFormData({...formData, profilepic: downloadURL});
         })
     });
-}
+  }
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value })
+  }
+
+  console.log(formData);
+
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+
+    try{
+      dispatch(updateUserStart());
+      // console.log('before fetch');
+      // console.log('user',currentUser._id);
+      
+      const res = await fetch(`/api/user/update/${currentUser._id}`,{
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      // console.log('response', data);      
+
+      if(data.success === false){
+        dispatch(updateUserFailure(data));
+        return;
+      }
+
+      // console.log('updated successfully');      
+
+      dispatch(updateUserSuccess(data));
+      // console.log('navigating');      
+      setUpdateSuccess(true)
+      
+
+    } catch(err){
+      
+      console.log(err);
+      dispatch(updateUserFailure(data));
+
+    }
+  }
+  
 
   return (
     <div className='max-w-lg mx-auto'>        
     <h1 className='text-center text-3xl font-semibold mt-20'>Profile</h1>
-        <form className='flex flex-col gap-4'>
+        <form 
+          onSubmit={handleSubmit}
+          className='flex flex-col gap-4'
+        >
             <input 
                 type='file' 
                 ref={fileRef} 
@@ -84,7 +138,7 @@ export const Profile = () => {
                 id="username"
                 placeholder='Username'
                 defaultValue={currentUser.username}
-
+                onChange={handleChange}
             />
             <input
                 type="email"
@@ -92,19 +146,24 @@ export const Profile = () => {
                 id="email"
                 placeholder='Email'
                 defaultValue={currentUser.email}
+                onChange={handleChange}
             />
             <input
                 type="password"
                 className='bg-slate-100 text-slate-800 rounded-lg p-3 hover:bg-slate-200'
                 id='password'
                 placeholder='Password'
+                onChange={handleChange}
             />
             <button
-                type="button"
+                type="submit"
                 className='p-2 bg-slate-600 text-white text-2xl rounded-lg hover:opacity-95 uppercase disabled:opac-80 cursor-pointer'
             >
-                Update
+                { loading ? 'Loading..' : 'update'}
             </button>
+            <p className="text-red-700 mt-5">{error ? error.message || 'Something went wrong!' : ''}</p>
+            <p className="text-green-700 mt-5">{updateSuccess ? 'Profile updated successfully..' : ''}</p>
+
         </form>
     </div>
   )
