@@ -14,7 +14,15 @@ const userSchema = new mongoose.Schema({
     password : {
         type: String,
         required: true
-    },  
+    },
+    mobile : {
+        type: Number,
+        default:0
+    }, 
+    place: {
+        type: String,
+        default:"nill"
+    }, 
     isAdmin : {
         type: Boolean,
         default: false

@@ -148,11 +148,28 @@ export const Profile = () => {
                 defaultValue={currentUser.email}
                 onChange={handleChange}
             />
+           
             <input
                 type="password"
                 className='bg-slate-100 text-slate-800 rounded-lg p-3 hover:bg-slate-200'
                 id='password'
                 placeholder='Password'
+                onChange={handleChange}
+            />
+            <input
+                type="text"
+                className='bg-slate-100 text-slate-800 rounded-lg p-3 hover:bg-slate-200'
+                id='mobile' 
+                placeholder={currentUser.mobile === 0 ? 'Mobile' : undefined} 
+                defaultValue={currentUser.mobile !== 0 ? currentUser.mobile : undefined} 
+                onChange={handleChange}
+            />
+            <input
+                type="text"
+                className='bg-slate-100 text-slate-800 rounded-lg p-3 hover:bg-slate-200'
+                id='place'
+                placeholder={currentUser.place === 'nill' ? 'Place' : undefined} 
+                defaultValue={currentUser.place !== 'nill' ? currentUser.place : undefined} 
                 onChange={handleChange}
             />
             <button
