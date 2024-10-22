@@ -167,9 +167,9 @@ export const Profile = () => {
             <input
                 type="text"
                 className='bg-slate-100 text-slate-800 rounded-lg p-3 hover:bg-slate-200'
-                id='place'
-                placeholder={currentUser.place === 'nill' ? 'Place' : undefined} 
-                defaultValue={currentUser.place !== 'nill' ? currentUser.place : undefined} 
+                id='jobtitle'
+                placeholder={currentUser.jobtitle === 'staff' ? 'Job Title' : undefined} 
+                defaultValue={currentUser.jobtitle !== 'staff' ? currentUser.jobtitle : undefined} 
                 onChange={handleChange}
             />
             <button

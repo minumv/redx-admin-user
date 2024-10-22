@@ -19,14 +19,18 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default:0
     }, 
-    place: {
+    jobtitle: {
         type: String,
-        default:"nill"
+        default:"staff"
     }, 
     isAdmin : {
         type: Boolean,
         default: false
     } ,
+    isActive : {
+        type: Boolean,
+        default: true
+    },
     profilepic: {
         type:String,
         default:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"

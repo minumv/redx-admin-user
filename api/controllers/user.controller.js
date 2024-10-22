@@ -26,7 +26,7 @@ export const updateUser = async(req, res, next)=>{
                     password: req.body.password,
                     profilepic: req.body.profilepic,
                     mobile: req.body.mobile,
-                    place: req.body.place
+                    jobtitle: req.body.jobtitle
                 },
             },
             {new: true}

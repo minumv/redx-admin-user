@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { OAuth } from '../components/OAuth';
 
 export const Signin = () => {
-    const [formData, setFormData] = useState({ email: '',
-      password: ''});
+    const [formData, setFormData] = useState({});
     const { loading, error }= useSelector((state)=> state.user)
     const navigate = useNavigate();
     const dispatch = useDispatch();

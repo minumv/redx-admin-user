@@ -1,5 +1,5 @@
 
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from '../redux/user/userSlice';
 
@@ -16,7 +16,8 @@ const Header = () => {
     }
   }
   return (
-    <div className="bg-slate-200">
+   <>
+     <div className="bg-slate-200">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3 ">
         <div>
           <h1 className="font-bold capitalize">redx-admin-user</h1>
@@ -50,6 +51,9 @@ const Header = () => {
         </ul>
       </div>
     </div>
+    {<Outlet/>}
+   </>
+    
   );
 }
 
